@@ -1,6 +1,6 @@
 'use strict';
 
-var DEBUG = true;
+var DEBUG = false;
 var LOADING_ICON_CLASS_NAME = 'kindlish-loading-icon';
 var debug = DEBUG ? console.log.bind(console) : (function() {});
 
