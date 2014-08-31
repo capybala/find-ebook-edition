@@ -27,7 +27,7 @@
       "*://www.amazon.de/*wishlist/*",
       "*://www.amazon.fr/*wishlist/*"
     ],
-    "js": ["contentscript.js"],
+    "js": ["js/content_script.js"],
     "run_at": "document_end"
   }
   ],
@@ -37,7 +37,7 @@
     "img/kindle_button_ja.png"
   ],
   "background": {
-    "scripts": ["localCache.js", "eventPage.js"],
+    "scripts": ["js/local_cache.js", "js/event_page.js"],
     "persistent": false
   }
 }
