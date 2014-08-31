@@ -15,6 +15,7 @@ Amazonのほしい物リストに入れたまま、買っていない本があ�
 ・Amazon.cn
 ・Amazon.de
 
+ソースコードは次の場所で公開しています。 https://github.com/capybala/find-ebook-edition
 
 URL
 ---
@@ -46,6 +47,8 @@ Available at the following stores.
 - Amazon.ca
 - Amazon.cn
 - Amazon.de
+
+Source code is available at https://github.com/capybala/find-ebook-edition
 
 Keywords
 --------
