@@ -6,6 +6,8 @@ Chrome Extension to find Kindle edition of paper books in your Amazon's Wish Lis
 Download from Chrome Web Store!  
 https://chrome.google.com/webstore/detail/find-ebook-edition/jhhpocdmfelpmobcnmjfppdpnbepkono/
 
+![Screenshot](https://github.com/capybala/find-ebook-edition/raw/master/dashboard/screenshot_us.png)
+
 Available at the following stores:
 
 - Amazon.com
