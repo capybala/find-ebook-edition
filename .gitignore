@@ -1,6 +1,3 @@
-venv
-*.pyc
-.env
-chrome_extension.zip
+target/
 *.pem
 *.crx
