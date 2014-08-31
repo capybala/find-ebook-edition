@@ -9,4 +9,4 @@ TARGET_PATH=$TARGET_DIR/find-ebook-edition.zip
 
 mkdir -p $TARGET_DIR
 rm $TARGET_PATH
-(cd $BASE_DIR; zip -r $TARGET_PATH . -x .\* dashboard/\*)
+(cd $BASE_DIR; zip -r $TARGET_PATH . -x .\* \*.pem dashboard/\* scripts/\* target/\*)
