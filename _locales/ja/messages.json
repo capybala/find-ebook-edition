@@ -1,0 +1,72 @@
+{
+  "extDescription": {
+    "message": "Amazonのほしい物リストに登録された紙の本にKindle版がある場合、「Kindle版を見る」ボタンを表示します。",
+    "description": "Extension description"
+  },
+  "errorAPI": {
+    "message": "Kindle版の情報を取得する際にエラーが発生しました。",
+    "description": "Error message of API call"
+  },
+  "buttonLang": {
+    "message": "ja",
+    "description": "Language code of the button"
+  },
+  "buttonAlt": {
+    "message": "Kindle版を見る",
+    "description": "Alt attribute of the button"
+  },
+
+  "welcomeBody": {
+    "message": "Find eBook Editionをインストールしていただき、ありがとうございます。Find eBook Edition（以下、本拡張機能と表記します）をご利用いただくには、以下の事項に同意していただく必要があります。"
+  },
+  "privacyHeading": {
+    "message": "プライバシーに関する注意事項"
+  },
+  "privacyBody1": {
+    "message": "本拡張機能を利用すると、あなたがAmazonのほしい物リストページを閲覧した際、以下のデータがorangain（以下、作者と表記します）の管理するサーバーに送信されます。"
+  },
+  "privacyBodyData1": {
+    "message": "ほしい物リストに含まれる商品のASIN（Amazonで利用される商品コード）"
+  },
+  "privacyBodyData2": {
+    "message": "ブラウザから送信される基本的な情報（IPアドレス、ブラウザのバージョン、Cookieなど）"
+  },
+  "privacyBody2": {
+    "message": "送信されるデータは、本拡張機能の機能を実現するために必要な最小限のデータであり、あなたの名前やメールアドレスなど個人を特定できるデータは含まれません。このため、個人とほしい物リストに含まれる商品が紐付けられることはありません。"
+  },
+  "disclaimerHeading": {
+    "message": "免責事項"
+  },
+  "disclaimerBody": {
+    "message": "作者は、本拡張機能の利用に関連してあなたが被った損害又は損失などについて、一切の責任を負わないものとします。"
+  },
+  "agreeButton": {
+    "message": "同意して利用する"
+  },
+  "disagreeButton": {
+    "message": "同意しない"
+  },
+
+  "welcomeTitle": {
+    "message": "Find eBook Editionのご利用ありがとうございます"
+  },
+  "welcome": {
+    "message": "ご利用ありがとうございます"
+  },
+  "welcomeNote": {
+    "message": "※「Kindle版を見る」ボタンの表示には時間がかかることがあります。"
+  },
+  "getStarted": {
+    "message": "今すぐ $1 のほしい物リストを見る"
+  },
+
+  "maintenanceHeading": {
+    "message": "メンテナンス"
+  },
+  "clearCache": {
+    "message": "キャッシュを消去"
+  },
+  "clearedCache": {
+    "message": "キャッシュを消去しました。"
+  }
+}

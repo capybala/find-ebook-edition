@@ -1,0 +1,32 @@
+body {
+	min-width:160px;
+	font-family: helvetica, arial, freesans, clean, sans-serif;
+	font-size: 80%;
+	color: #333;
+}
+
+h1 {
+	font-size: 130%;
+}
+
+h2 {
+	font-size: 110%;
+}
+
+#message {
+	font-size: 80%;
+	color: #666;
+}
+
+#eula {
+	width:500px;
+	min-width:300px;
+}
+
+#stores li {
+	line-height: 1.5;
+}
+
+#stores li:first-child {
+	font-size: 140%;
+}

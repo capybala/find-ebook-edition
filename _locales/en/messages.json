@@ -1,0 +1,72 @@
+{
+  "extDescription": {
+    "message": "Display the \"View Kindle Edition\" button if there's Kindle edition of books in Amazon's wish lists.",
+    "description": "Extension description"
+  },
+  "errorAPI": {
+    "message": "An error occurred while retrieving Kindle edition.",
+    "description": "Error message of API call"
+  },
+  "buttonLang": {
+    "message": "en",
+    "description": "Language code of the button"
+  },
+  "buttonAlt": {
+    "message": "View Kindle Edition",
+    "description": "Alt attribute of the button"
+  },
+
+  "welcomeBody": {
+    "message": "Welcome to Find eBook Edition! In order to use the Find eBook Edition (\"Extension\"), you must first agree to the following terms and conditions."
+  },
+  "privacyHeading": {
+    "message": "Privacy Policy"
+  },
+  "privacyBody1": {
+    "message": "When you use the Extension and visit the Amazon's wish list pages, following information are send to servers administrated by orangain (\"Author\")."
+  },
+  "privacyBodyData1": {
+    "message": "ASINs of products contained in the wish list you visited. Note that ASIN is a product code used in Amazon."
+  },
+  "privacyBodyData2": {
+    "message": "Basic information send from your browser including IP address, version of your browser and cookies etc."
+  },
+  "privacyBody2": {
+    "message": "These information are minimum and required to offer functions of the Extension. The information does not include your name or email addresses."
+  },
+  "disclaimerHeading": {
+    "message": "EXCLUSION OF WARRANTIES"
+  },
+  "disclaimerBody": {
+    "message": "YOU EXPRESSLY UNDERSTAND AND AGREE THAT YOUR USE OF THE EXTENSION IS AT YOUR SOLE RISK AND THAT THE EXTENSION IS PROVIDED \"AS IS\" AND \"AS AVAILABLE.\" THE AUTHOR, ITS SUBSIDIARIES AND AFFILIATES, AND ITS LICENSORS MAKE NO EXPRESS WARRANTIES AND DISCLAIM ALL IMPLIED WARRANTIES REGARDING THE EXTENSION, INCLUDING IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. WITHOUT LIMITING THE GENERALITY OF THE FOREGOING, THE AUTHOR, ITS SUBSIDIARIES AND AFFILIATES, AND ITS LICENSORS DO NOT REPRESENT OR WARRANT TO YOU THAT: (A) YOUR USE OF THE EXTENSION WILL MEET YOUR REQUIREMENTS, (B) YOUR USE OF THE EXTENSION WILL BE UNINTERRUPTED, TIMELY, SECURE OR FREE FROM ERROR, AND (C) THE RESULT THAT MAY BE OBTAINED FROM THE USE OF THE EXTENSION WILL BE ACCURATE OR RELIABLE."
+  },
+  "agreeButton": {
+    "message": "I Agree"
+  },
+  "disagreeButton": {
+    "message": "I Do Not Agree"
+  },
+
+  "welcomeTitle": {
+    "message": "Thank you for using Find eBook Edition"
+  },
+  "welcome": {
+    "message": "Welcome!"
+  },
+  "welcomeNote": {
+    "message": "NOTE: It may take a little white to display \"View Kindle Edition\" buttons."
+  },
+  "getStarted": {
+    "message": "Go to Wish List in $1"
+  },
+
+  "maintenanceHeading": {
+    "message": "Maintenance Task"
+  },
+  "clearCache": {
+    "message": "Clear Cache"
+  },
+  "clearedCache": {
+    "message": "The cache is now cleared."
+  }
+}

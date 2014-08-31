@@ -1,0 +1,52 @@
+日本語
+======
+
+概要
+----
+
+Amazonのほしい物リストに入れたまま、買っていない本がありませんか？この拡張機能を使うと、ほしい物リストに登録された紙の本のKindle版を簡単に探せます。気軽に読める電子書籍で、読書を楽しみましょう。
+
+以下のストアで利用できます。
+・Amazon.co.jp
+・Amazon.com
+・Amazon.co.uk
+・Amazon.fr
+・Amazon.ca
+・Amazon.cn
+・Amazon.de
+
+
+URL
+---
+
+https://twitter.com/orangain
+
+キーワード
+----------
+
+Kindle,キンドル,Amazon,アマゾン,eBook,e-book,電子書籍,読書
+
+
+
+English
+=======
+
+Description
+-----------
+
+Is there any book added to Amazon's Wish List but not bought?
+The extension makes it easy to find Kindle edition of paper books in your Wish List.
+Let's enjoy reading e-books on Kindle.
+
+Available at the following stores.
+- Amazon.com
+- Amazon.co.uk
+- Amazon.co.jp
+- Amazon.fr
+- Amazon.ca
+- Amazon.cn
+- Amazon.de
+
+Keywords
+--------
+Kindle,Amazon,eBook,e-book,book,reading

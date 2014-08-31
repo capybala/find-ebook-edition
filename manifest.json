@@ -1,0 +1,43 @@
+{
+  "name": "Find eBook Edition",
+  "version": "1.1",
+  "manifest_version": 2,
+  "default_locale": "en",
+  "description": "__MSG_extDescription__",
+  "icons": {
+    "48": "img/icon_48.png",
+    "128": "img/icon_128.png"
+  },
+  "page_action": {
+    "default_title": "Find eBook Edition",
+    "default_icon": "img/icon_19.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "http://prefer-ebooks.capybala.com/"
+  ],
+  "content_scripts": [
+    {
+    "matches": [
+      "*://www.amazon.com/*wishlist/*",
+      "*://www.amazon.co.jp/*wishlist/*",
+      "*://www.amazon.co.uk/*wishlist/*",
+      "*://www.amazon.ca/*wishlist/*",
+      "*://www.amazon.cn/*wishlist/*",
+      "*://www.amazon.de/*wishlist/*",
+      "*://www.amazon.fr/*wishlist/*"
+    ],
+    "js": ["contentscript.js"],
+    "run_at": "document_end"
+  }
+  ],
+  "web_accessible_resources": [
+    "img/loading_icon.gif",
+    "img/kindle_button_en.png",
+    "img/kindle_button_ja.png"
+  ],
+  "background": {
+    "scripts": ["localCache.js", "eventPage.js"],
+    "persistent": false
+  }
+}
