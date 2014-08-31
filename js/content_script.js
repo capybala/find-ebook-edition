@@ -1,173 +1,201 @@
 'use strict';
 
-var DEBUG = false;
+var DEBUG = true;
 var LOADING_ICON_CLASS_NAME = 'kindlish-loading-icon';
+var debug = DEBUG ? console.log.bind(console) : (function() {});
 
-if (!DEBUG) {
-  console.log = function() {};
-}
+debug('kindlish start');
 
-console.log('kindlish start');
+var port = chrome.extension.connect();
+var mapAsinToPlaceholders = {};
 
-var mapAsinToElements = {};
-
-var containers = document.querySelectorAll('table.wlrdZeroTable');
-console.log(containers);
-var autoPagerizeTarget = containers[containers.length - 1]; // last container
-console.log(autoPagerizeTarget);
-
-if (autoPagerizeTarget) {
-  // enable only when target exists
-  console.log(autoPagerizeTarget.parentNode);
-
-  var port = chrome.extension.connect();
-
-  chrome.extension.sendMessage({action: 'isAccepted'}, function(isAccepted) {
-    if (isAccepted) {
-      observeAutoPagerize(autoPagerizeTarget.parentNode, function(addedNodes) {
-        // when nodes are added
-        Array.prototype.forEach.call(addedNodes, function(node) {
-          if (node.tagName == 'TABLE' && node.className == 'wlrdZeroTable') {
-            // when node contains products
-            addKindleButtons(node);
-          }
-        });
-      });
-
-      port.onMessage.addListener(onKindleEditionsReceived);
-
-      addKindleButtons(document);
-    }
-  });
-}
-
-function observeAutoPagerize(target, onAdded) {
-  var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-  var observer = new MutationObserver(function(mutations) {
-    console.log('mutations');
-    console.log(mutations);
-    mutations.forEach(function(mutation) {
-      if (mutation.type == 'childList' && mutation.addedNodes) {
-        onAdded(mutation.addedNodes);
-      }
-    });
-  });
-
-  observer.observe(target, {attributes: true, childList: true, characterData: true});
-}
-
-function addKindleButtons(rootNode) {
-  var itemElements = rootNode.querySelectorAll('.itemWrapper');
-  var asins = [];
-
-  Array.prototype.forEach.call(itemElements, function(itemElement) {
-    var name = itemElement.getAttribute('name');
-    if (!name) {
-      // exclude elements not having "name" attribute
-      return;
-    }
-    var match = name.match(/\w+$/);
-    if (!match) {
-      // exclude elements of "何でもほしい物リスト" which does not have ASIN
-      return;
-    }
-
-    var asin = match[0];
-    asins.push(asin);
-    mapAsinToElements[asin] = itemElement;
-
-    var loadingIcon = document.createElement('img');
-    loadingIcon.setAttribute('src', chrome.extension.getURL('img/loading_icon.gif'));
-    loadingIcon.setAttribute('class', LOADING_ICON_CLASS_NAME);
-    addButton(loadingIcon, itemElement);
-  });
-
-  console.log(mapAsinToElements);
-  console.log('send from content');
-  port.postMessage({'asins': asins, 'hostname': location.hostname});
-}
-
-function onKindleEditionsReceived(response) {
-  console.log(response);
-
-  if (response.error) {
-    console.log('error');
-    onError(response);
-  } else {
-    console.log('success');
-    onSuccess(response);
+chrome.extension.sendMessage({action: 'isAccepted'}, function(isAccepted) {
+  // Confirm that user already accepted EULA
+  if (!isAccepted) {
+    return; // do nothing
   }
 
-  console.log(mapAsinToElements);
+  port.onMessage.addListener(onRecievedMessage);
+  addKindleButtons(document);
+  observePager();
+  observeAutoPagerize();
+});
+
+function addKindleButtons(rootNode) {
+  // for design since 2014
+  addKindleButtonsToLinks(
+    rootNode.querySelectorAll('a[id^=itemName_][href^="/dp/"], td a[href^="/dp/"]'));
+
+  // for design until 2013 (may work)
+  addKindleButtonsToLinks(
+    rootNode.querySelectorAll('.itemWrapper .productTitle a[href^="/dp/"]'));
+}
+
+function addKindleButtonsToLinks(linksToProduct) {
+  var asins = [];
+
+  debug(linksToProduct);
+
+  Array.prototype.forEach.call(linksToProduct, function(linkToProduct) {
+    if (linkToProduct.hasAttribute('data-found-by-find-ebook-edition')) {
+      return;
+    }
+    // mark as found
+    linkToProduct.setAttribute('data-found-by-find-ebook-edition', '');
+
+    var asin = extractAsinFromLink(linkToProduct);
+    if (!asin) {
+      return; // ignore links not having asin
+    }
+
+    asins.push(asin);
+
+    var loadingIcon = createLoadingIcon();
+    if (linkToProduct.getAttribute('target')) {
+      // preserve target attribute to use later if exists
+      loadingIcon.setAttribute('data-target', linkToProduct.getAttribute('target'));
+    }
+    getParentOfButton(linkToProduct).appendChild(loadingIcon);
+
+    mapAsinToPlaceholders[asin] = loadingIcon;
+  });
+
+  if (asins.length) {
+    debug('sending from content');
+    debug(asins);
+    port.postMessage({'asins': asins, 'hostname': location.hostname});
+  }
+}
+
+function onRecievedMessage(response) {
+  if (response.error) {
+    debug('error');
+    onError(response);
+  } else {
+    debug('success');
+    debug(response.items);
+    onRecievedKindleEditions(response.items);
+  }
 }
 
 function onError(response) {
   response.asins.forEach(function(asin) {
-    var itemElement = popItemElement(asin);
+    var placeholder = mapAsinToPlaceholders[item.asin];
 
-    var span = document.createElement('span');
-    span.innerText = chrome.i18n.getMessage('errorAPI');
-    span.setAttribute('style', 'color: #ccc');
+    var spanError = document.createElement('span');
+    spanError.innerText = chrome.i18n.getMessage('errorAPI');
+    spanError.setAttribute('style', 'color: #ccc');
 
-    addButton(span, itemElement);
+    placeholder.parentNode.replaceChild(spanError, placeholder);
   });
 }
 
-function onSuccess(response) {
-  response.items.forEach(function(item) {
-    var itemElement = popItemElement(item.asin);
-
+function onRecievedKindleEditions(items) {
+  items.forEach(function(item) {
+    var placeholder = mapAsinToPlaceholders[item.asin];
     if (item.kindle) {
-      var titleElement = itemElement.querySelector('.productTitle a');
-
-      var a = document.createElement('a');
-      a.setAttribute('href', item.kindle.url);
-      if (titleElement.hasAttribute('target')) {
-        a.setAttribute('target', titleElement.getAttribute('target')); // for AutoPagerized page
-      }
-      var img = document.createElement('img');
-      var buttonFilename = 'img/kindle_button_' + chrome.i18n.getMessage('buttonLang') + '.png';
-      img.setAttribute('src', chrome.extension.getURL(buttonFilename));
-      img.alt = chrome.i18n.getMessage('buttonAlt');
-      a.appendChild(img);
-
-      addButton(a, itemElement);
+      var button = createKindleButton(item, placeholder.getAttribute('data-target'));
+      placeholder.parentNode.replaceChild(button, placeholder);
+    } else {
+      placeholder.parentNode.removeChild(placeholder);
     }
   });
 }
 
-function popItemElement(asin) {
-  var itemElement = mapAsinToElements[asin];
-  delete mapAsinToElements[asin];
+// ---- Observers ----
 
-  // remove loading icon
-  var loadingIcon = itemElement.querySelector('.' + LOADING_ICON_CLASS_NAME);
-  if (loadingIcon) {
-    // assert always true
-    loadingIcon.parentNode.removeChild(loadingIcon);
-  }
+function observePager() {
+  var wrapperObserver = new MutationObserver(function(mutations) {
+    debug('mutations-wrapper');
+    debug(mutations);
+    mutations.forEach(function(mutation) {
+      if (mutation.type == 'childList') {
+        Array.prototype.forEach.call(mutation.addedNodes, function(addedNode) {
+          debug(addedNode);
+          // items are lazy loaded. So observe addedNode recursively by itemObserver
+          itemObserver.disconnect();
+          itemObserver.observe(addedNode, {childList: true, subtree: true});
+        });
+      }
+    });
+  });
 
-  return itemElement;
+  wrapperObserver.observe(document.querySelector('#item-page-wrapper'), {childList: true});
+
+  var itemObserver = new MutationObserver(function(mutations) {
+    debug('mutations-item');
+    debug(mutations);
+    mutations.forEach(function(mutation) {
+      if (mutation.type == 'childList') {
+        Array.prototype.forEach.call(mutation.addedNodes, function(addedNode) {
+          debug(addedNode);
+          if (addedNode.nodeType == 1 && addedNode.tagName == 'DIV') {
+            // only when node is TAG, because sometimes TextNode is added
+            addKindleButtons(addedNode);
+          }
+        });
+      }
+    });
+  });
 }
 
-function addButton(button, itemElement) {
-  // Note that :nth-of-type(3) does not mean the same thing.
-  var priceRow = itemElement.querySelectorAll('.lineItemGroup')[2];
+// currently this does not work
+function observeAutoPagerize() {
+  var observer = new MutationObserver(function(mutations) {
+    debug('mutations-autopagerize');
+    debug(mutations);
+    mutations.forEach(function(mutation) {
+      if (mutation.type == 'childList') {
+        Array.prototype.forEach.call(mutation.addedNodes, function(addedNode) {
+          debug(addedNode);
+          addKindleButtons(addedNode);
+        });
+      }
+    });
+  });
 
-  if (priceRow) {
-    // when normal view
-    var pricePart = priceRow.childNodes[0];
-    if (pricePart) {
-      pricePart.appendChild(button);
-    }
-  } else {
-    // when compact view
-
-    // The first row contains two <tr>s, header and item,
-    // tr:last-child is necessary to retrive the item row.
-    var buyColumn = itemElement.querySelector('tr:last-child td:nth-child(3)');
-    if (buyColumn) {
-      buyColumn.appendChild(button);
-    }
+  var containers = document.querySelectorAll('table.wlrdZeroTable');
+  var targetOfAutopagerized = containers[containers.length - 1];
+  if (targetOfAutopagerized) {
+    observer.observe(targetOfAutopagerized.parentNode, {childList: true});
   }
+}
+
+// ---- Utils ----
+
+function extractAsinFromLink(linkToProduct) {
+  var match = linkToProduct.getAttribute('href').match(/\/dp\/(\w+)\//);
+  return match[1];
+}
+
+// return the parent node where kindle button should be appended
+function getParentOfButton(linkToProduct) {
+  var parent = linkToProduct.parentNode;
+  if (parent.classList.contains('clip-text')) {
+    // return parentNode because button is not shown when the button is clip-text's child
+    parent = parent.parentNode;
+  }
+  return parent;
+}
+
+function createLoadingIcon() {
+  var loadingIcon = document.createElement('img');
+  loadingIcon.setAttribute('src', chrome.extension.getURL('img/loading_icon.gif'));
+  loadingIcon.setAttribute('class', LOADING_ICON_CLASS_NAME);
+  return loadingIcon;
+}
+
+function createKindleButton(item, target) {
+  var a = document.createElement('a');
+  a.setAttribute('href', item.kindle.url);
+  if (target) {
+    a.setAttribute('target', target);
+  }
+  var img = document.createElement('img');
+  var buttonFilename = 'img/kindle_button_' + chrome.i18n.getMessage('buttonLang') + '.png';
+  img.setAttribute('src', chrome.extension.getURL(buttonFilename));
+  img.alt = chrome.i18n.getMessage('buttonAlt');
+  a.appendChild(img);
+
+  return a;
 }
