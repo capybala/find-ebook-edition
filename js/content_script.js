@@ -80,7 +80,7 @@ function onRecievedMessage(response) {
 
 function onError(response) {
   response.asins.forEach(function(asin) {
-    var placeholder = mapAsinToPlaceholders[item.asin];
+    var placeholder = mapAsinToPlaceholders[asin];
 
     var spanError = document.createElement('span');
     spanError.innerText = chrome.i18n.getMessage('errorAPI');
