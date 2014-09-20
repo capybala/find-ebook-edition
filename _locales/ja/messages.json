@@ -7,13 +7,9 @@
     "message": "Kindle版の情報を取得する際にエラーが発生しました。",
     "description": "Error message of API call"
   },
-  "buttonLang": {
-    "message": "ja",
-    "description": "Language code of the button"
-  },
-  "buttonAlt": {
+  "buttonTitle": {
     "message": "Kindle版を見る",
-    "description": "Alt attribute of the button"
+    "description": "Title of the button"
   },
 
   "welcomeBody": {

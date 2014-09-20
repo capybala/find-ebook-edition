@@ -187,15 +187,12 @@ function createLoadingIcon() {
 
 function createKindleButton(item, target) {
   var a = document.createElement('a');
+  a.setAttribute('class', 'find-ebook-edition-button');
   a.setAttribute('href', item.kindle.url);
   if (target) {
     a.setAttribute('target', target);
   }
-  var img = document.createElement('img');
-  var buttonFilename = 'img/kindle_button_' + chrome.i18n.getMessage('buttonLang') + '.png';
-  img.setAttribute('src', chrome.extension.getURL(buttonFilename));
-  img.alt = chrome.i18n.getMessage('buttonAlt');
-  a.appendChild(img);
+  a.appendChild(document.createTextNode(chrome.i18n.getMessage('buttonTitle')));
 
   return a;
 }

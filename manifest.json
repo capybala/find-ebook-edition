@@ -28,13 +28,12 @@
       "*://www.amazon.fr/*wishlist/*"
     ],
     "js": ["js/content_script.js"],
+    "css": ["css/content_script.css"],
     "run_at": "document_end"
   }
   ],
   "web_accessible_resources": [
-    "img/loading_icon.gif",
-    "img/kindle_button_en.png",
-    "img/kindle_button_ja.png"
+    "img/loading_icon.gif"
   ],
   "background": {
     "scripts": ["js/local_cache.js", "js/event_page.js"],

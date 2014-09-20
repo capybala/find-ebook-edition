@@ -7,13 +7,9 @@
     "message": "An error occurred while retrieving Kindle edition.",
     "description": "Error message of API call"
   },
-  "buttonLang": {
-    "message": "en",
-    "description": "Language code of the button"
-  },
-  "buttonAlt": {
+  "buttonTitle": {
     "message": "View Kindle Edition",
-    "description": "Alt attribute of the button"
+    "description": "title of the button"
   },
 
   "welcomeBody": {
